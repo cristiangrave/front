@@ -1,18 +1,15 @@
-import React, { useRef } from 'react';
+import { useRef, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import FloatingLabel from 'react-bootstrap/esm/FloatingLabel';
-
 function cuiIsValid(cui) {
     if (!cui) {
         console.log("CUI vacío");
         return true;
     }
-
     const cuiRegExp = /^[0-9]{4}\s?[0-9]{5}\s?[0-9]{4}$/;
-
     if (!cuiRegExp.test(cui)) {
         console.log("CUI con formato inválido");
         return false;
@@ -43,6 +40,7 @@ function cuiIsValid(cui) {
 
 function Formulario() {
     const cuiRef = useRef(null);
+    const [isValid, setIsValid] = useState(true);
 
     const handleKeyUp = (e) => {
         console.log("CUI: " + cuiRef.current.value);
@@ -66,6 +64,11 @@ function Formulario() {
             parent.classList.remove('has-success');
             next.classList.remove('glyphicon-ok');
         } 
+        if (cui && cuiIsValid(cui)) {
+            setIsValid(true);
+        } else {
+            setIsValid(false);
+        }
     };
 
     return (
@@ -77,11 +80,12 @@ function Formulario() {
                     <p>El <strong>Codigo de Identificacion</strong> (CUI) es el numero con el que se identifican los ciudadados en Guatemala y se ecuentra impreso en su <strong>Documento Personal de Identificacion</strong> (DPI).</p>
                     <blockquote><p>El presente formulario permite <em>verificar si el CUI escrito es valido</em>, sin embargo la validez del numero no implica que exista un ciudadano que se identifique con dicho numero.</p></blockquote>
                     <FloatingLabel controlId="cui" label="Ingrese Cui" >
-                        <Form.Control type="text" placeholder="Ingrese Cui" ref={cuiRef} onKeyUp={handleKeyUp}/>
+                        <Form.Control type="text" placeholder="Ingrese Cui" ref={cuiRef} onKeyUp={handleKeyUp}   className={isValid ? '' : 'is-invalid'}/>
                     </FloatingLabel>
                 </Col>
             </Row>
         </Container>
+    
         </>
     );
 }
