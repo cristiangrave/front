@@ -1,10 +1,15 @@
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.jsx'
-
+import Formulario from './Form/form'
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
+  <>
+  <Container fluid>
+      <Row className="justify-content-md-center">
+        <Col>< Formulario/></Col>
+    </Row>
+    </Container>
+  </>,
 )
