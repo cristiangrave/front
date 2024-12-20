@@ -1,4 +1,4 @@
-import  { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -44,36 +44,29 @@ function cuiIsValid(cui) {
 function Formulario() {
     const cuiRef = useRef(null);
 
-    useEffect(() => {
-        const input = cuiRef.current;
-        const handleKeyUp = (e) => {
-            const parent = input.parentElement;
-            const next = input.nextElementSibling;
-            const cui = input.value;
-
-            if (cui && cuiIsValid(cui)) {
-                parent.classList.add('has-success');
-                next.classList.add('glyphicon-ok');
-                parent.classList.remove('has-error');
-                next.classList.remove('glyphicon-remove');
-            } else if (cui) {
-                parent.classList.add('has-error');
-                next.classList.add('glyphicon-remove');
-                parent.classList.remove('has-success');
-                next.classList.remove('glyphicon-ok');
-            } else {
-                parent.classList.remove('has-error');
-                next.classList.remove('glyphicon-remove');
-                parent.classList.remove('has-success');
-                next.classList.remove('glyphicon-ok');
-            }
-        };
-
-        input.addEventListener('keyup', handleKeyUp);
-        return () => {
-            input.removeEventListener('keyup', handleKeyUp);
-        };
-    }, []);
+    const handleKeyUp = (e) => {
+        console.log("CUI: " + cuiRef.current.value);
+            const input = e.target;
+        const parent = input.parentElement;
+        const next = input.nextElementSibling;
+        const cui = input.value;
+        if (cui && cuiIsValid(cui)) {
+            parent.classList.add('has-success');
+            next.classList.add('glyphicon-ok');
+            parent.classList.remove('has-error');
+            next.classList.remove('glyphicon-remove');
+        } else if (cui) {
+            parent.classList.add('has-error');
+            next.classList.add('glyphicon-remove');
+            parent.classList.remove('has-success');
+            next.classList.remove('glyphicon-ok');
+        } else {
+            parent.classList.remove('has-error');
+            next.classList.remove('glyphicon-remove');
+            parent.classList.remove('has-success');
+            next.classList.remove('glyphicon-ok');
+        } 
+    };
 
     return (
         <> 
@@ -84,7 +77,7 @@ function Formulario() {
                     <p>El <strong>Codigo de Identificacion</strong> (CUI) es el numero con el que se identifican los ciudadados en Guatemala y se ecuentra impreso en su <strong>Documento Personal de Identificacion</strong> (DPI).</p>
                     <blockquote><p>El presente formulario permite <em>verificar si el CUI escrito es valido</em>, sin embargo la validez del numero no implica que exista un ciudadano que se identifique con dicho numero.</p></blockquote>
                     <FloatingLabel controlId="cui" label="Ingrese Cui" >
-                        <Form.Control type="text" placeholder="Ingrese Cui" ref={cuiRef}/>
+                        <Form.Control type="text" placeholder="Ingrese Cui" ref={cuiRef} onKeyUp={handleKeyUp}/>
                     </FloatingLabel>
                 </Col>
             </Row>
