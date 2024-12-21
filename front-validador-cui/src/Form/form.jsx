@@ -12,9 +12,8 @@ function cuiIsValid(cui) {
     const cuiRegExp = /^[0-9]{4}\s?[0-9]{5}\s?[0-9]{4}$/;
     if (!cuiRegExp.test(cui)) {
         console.log("CUI con formato inválido");
-        return false;
+                return false;
     }
-
     cui = cui.replace(/\s/, '');
     const depto = parseInt(cui.substring(9, 11), 10);
     const muni = parseInt(cui.substring(11, 13));
